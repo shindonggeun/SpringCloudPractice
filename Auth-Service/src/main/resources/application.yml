@@ -1,0 +1,11 @@
+server:
+  port: 8081  # 각 마이크로서비스의 고유 포트 (Auth-Service의 경우 예시로 8081 사용)
+
+spring:
+  application:
+    name: AUTH-SERVICE  # 서비스 이름을 설정하여 Eureka에 등록될 때 사용
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka  # Eureka 서버의 URL
