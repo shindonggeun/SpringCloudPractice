@@ -1,0 +1,24 @@
+server:
+  port: 8000  # API Gateway 애플리케이션이 실행될 포트 번호, 클라이언트는 이 포트로 요청을 보냄
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service  # Gateway에서 설정할 라우트의 식별자
+          uri: lb://AUTH-SERVICE  # 요청을 로드밸런싱하여 Auth-Service로 전달, 'lb://'는 Eureka를 통해 동적 로드 밸런싱
+          predicates:
+            - Path=/auth/**  # 경로 조건, 클라이언트가 /auth/로 시작하는 경로로 요청을 보낼 때 이 라우트를 사용
+        - id: order-service  # Order-Service에 대한 라우트 설정
+          uri: lb://ORDER-SERVICE  # ORDER-SERVICE로 로드 밸런싱을 통해 라우팅
+          predicates:
+            - Path=/order/**  # /order/로 시작하는 경로의 요청을 Order-Service로 전달
+        - id: inventory-service  # Inventory-Service에 대한 라우트 설정
+          uri: lb://INVENTORY-SERVICE  # INVENTORY-SERVICE로 로드 밸런싱을 통해 라우팅
+          predicates:
+            - Path=/inventory/**  # /inventory/로 시작하는 경로의 요청을 Inventory-Service로 전달
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka  # Eureka 서버의 URL, 모든 서비스들이 이 주소로 Eureka 서버에 등록 및 서비스 탐색을 수행
