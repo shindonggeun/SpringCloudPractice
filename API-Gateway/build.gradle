@@ -13,6 +13,12 @@ java {
 	}
 }
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
@@ -28,7 +34,13 @@ dependencies {
 	// Eureka Client for Service Discovery
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.2'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.2'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
