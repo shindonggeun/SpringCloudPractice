@@ -3,7 +3,7 @@ package com.example.apigateway.jwt.exception;
 import lombok.Getter;
 
 @Getter
-public class JwtTokenException extends RuntimeException{
+public class JwtTokenException extends RuntimeException {
 
     private final JwtTokenErrorCode errorCode;
 

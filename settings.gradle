@@ -1,0 +1,5 @@
+rootProject.name = 'SpringCloudPractice'
+include 'API-Gateway'
+include 'Auth-Service'
+include 'Global-module'
+include 'Service-Discovery'

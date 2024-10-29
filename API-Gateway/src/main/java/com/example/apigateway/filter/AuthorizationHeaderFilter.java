@@ -44,7 +44,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Conf
                 addAuthorizationHeaders(request, memberId);
             } catch (ExpiredJwtException e) {
                 throw new JwtTokenException(JwtTokenErrorCode.EXPIRED_TOKEN);
-            } catch (MalformedJwtException | SecurityException | IllegalArgumentException  e) {
+            } catch (MalformedJwtException | SecurityException | IllegalArgumentException e) {
                 throw new JwtTokenException(JwtTokenErrorCode.INVALID_TOKEN);
             } catch (SignatureException e) {
                 throw new JwtTokenException(JwtTokenErrorCode.SIGNATURE_INVALID);

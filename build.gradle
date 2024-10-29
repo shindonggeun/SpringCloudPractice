@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+}
+
+subprojects {
+	group = 'com.example'
+	version = '0.0.1-SNAPSHOT'
+
+	apply {
+		plugin 'java'
+		plugin 'org.springframework.boot'
+		plugin 'io.spring.dependency-management'
+	}
+
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(17)
+		}
+	}
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	dependencies {
+		// Lombok 공통 설정
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	}
+
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
+}
+
+// 특정 서비스에만 Spring Cloud 설정 적용
+subprojects.findAll { project ->
+	project.name in ["API-Gateway", "Auth-Service", "Service-Discovery"]
+}.each { project ->
+	project.ext.set('springCloudVersion', "2023.0.3")
+
+	project.dependencies {
+		// Spring Cloud BOM 적용
+		project.dependencyManagement {
+			imports {
+				mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.springCloudVersion}"
+			}
+		}
+
+		// Spring Cloud 의존성
+		implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	}
+}
